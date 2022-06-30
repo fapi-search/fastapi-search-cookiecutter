@@ -1,0 +1,49 @@
+* Contributing
+** Types of Contributions
+Report bugs, feature requests, questions or ideas at https://github.com/fapi-search/fastapi-search-cookiecutter/issues.
+** Local Dev Setup
+Because this is a cookiecutter, that is, a template to generate a running site, but not a running site itself, it's a bit "meta" to work on many features. A typical practice to deal with this looks like
+1. Fork the repo and clone locally
+2. Create a cookiecutter built version of the service, e.g.,
+  #+begin_src bash
+    cookiecutter fastapi-search-cookiecutter
+  #+end_src
+3. Answer questions
+  #+begin_src bash
+    project_name [Search Project]: FastAPI Search Work
+    project_slug [fastapi-search-work]: 
+    default_host [0.0.0.0]: 
+    default_port [8001]: 
+    default_postgres_url [http://db_user:db_pass@localhost:5432/app_db]: 
+    default_search_url [http://admin:admin@localhost:9200]: 
+    Select search_backend:
+    1 - opensearch
+    2 - elasticsearch
+    Choose from 1, 2 [1]: 1
+  #+end_src
+4. ~cd fastapi-search-work~
+5. Code, test, and run your changes
+6. Copy changed files back to the ~fastapi-search-cookiecutter~ repo, /taking care/ where files have cookiecutter logic in them.
+7. Run cookiecutter on your updated repo
+  #+begin_src bash
+    cookiecutter fastapi-search-cookiecutter
+  #+end_src
+8. Answer questions for a new instance
+  #+begin_src bash
+    project_name [Search Project]: FastAPI Search Test
+    project_slug [fastapi-search-test]: 
+    default_host [0.0.0.0]: 
+    default_port [8001]: 
+    default_postgres_url [http://db_user:db_pass@localhost:5432/app_db]: 
+    default_search_url [http://admin:admin@localhost:9200]: 
+    Select search_backend:
+    1 - opensearch
+    2 - elasticsearch
+    Choose from 1, 2 [1]: 1
+  #+end_src
+9. Make sure everything looks right, tests pass, etc. Running a tree diff between the work and test instances can be helpful.
+** Process
+Until CI and versioning is setup, our SDLC will be a bit ad-hoc. Assuming you're working on an [[https://github.com/fapi-search/fastapi-search-cookiecutter/issues][issue already in the repo]], submit a PR from your fork citing that issue. For those working directly on the upstream, use the issue create a branch link,
+[[./img/create-a-branch-from-issue.png]]
+which provides a reasonably slugified branch name...
+[[./img/create-a-branch-for-this-issue.png]]
