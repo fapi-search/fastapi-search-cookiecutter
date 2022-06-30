@@ -6,7 +6,7 @@ The fastapi-search-cookiecutter repo is early stage, with rough edges and essent
 The vision and motivation for this service template is simplicity and performance. What inspired the work is the lack of a clean and simple service stack that uses SQL directly, sans ORM compiled queries, and a DSL for managing the search database.
 
 The presumption is that an RDBMS is the source of data truth. The primary database typically involves a complex, interrelated schema that routinely calls for hand tuned query optimization. The search database will house non-normalized data from the primary database and provides the power of reverse index queries, multiple index mappings per field, faceting, etc. The flat document architecture of the search DB is amenable to service language level DSL, such as elasticsearch-dsl and opensearch-dsl.
-*** A Word Regarding Elasticsearch v OpenSearch
+*** A Word Regarding ElasticSearch v OpenSearch
 Nuetrality.
 ** Usage
 - Install cookiecutter per the [[https://cookiecutter.readthedocs.io/en/stable/installation.html][cookiecutter docs]]
@@ -38,3 +38,7 @@ Choose from 1, 2 [1]: 1
 #+end_src
 ** Contributing
 See the [[./CONTRIBUTING.org][contributing doc]].
+** Acknowledgements
+- [[https://christophergs.com/][ChristopherGS's]] fine [[https://christophergs.com/tutorials/ultimate-fastapi-tutorial-pt-1-hello-world/][FastAPI tutorial]] (one of the best out there), especially borrowed snippets from his [[https://github.com/ChristopherGS/ultimate-fastapi-tutorial/tree/main/part-08-structure-and-versioning][part-08-structure-and-versioning]] repo files.
+- The aforementioned doc draws heavily on the [[https://fastapi.tiangolo.com/project-generation/#full-stack-fastapi-postgresql][Full Stack FastAPI PostgreSQL]] template and of course [[https://fastapi.tiangolo.com/][FastAPI]] itself.
+- The [[https://www.starlette.io/][Starlette Project]] and anything [[https://github.com/encode][Encode]] touches, bedrock of first class Python tech.
