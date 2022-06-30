@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <section class="bg-black ">
+      <div class="container px-5 py-12 mx-auto lg:px-20">
+        <div class="flex flex-col flex-wrap pb-6 mb-12 text-white ">
+          <h1 class="mb-12 text-3xl font-medium text-white">
+            FastAPI Search Template
+          </h1>
+        </div>
+        <div
+          class="flex flex-wrap items-end justify-start w-full transition duration-500 ease-in-out transform bg-black border-2 border-gray-600 rounded-lg hover:border-white ">
+          <div class="w-full xl:w-1/4 md:w-1/4">
+            <div class="relative flex flex-col h-full p-8 ">
+              <h2 class="mb-4 font-semibold tracking-widest text-white uppercase title-font">
+                {{request}}
+              </h2>
+              <p class="flex items-center mb-2 text-lg font-normal tracking-wide text-white">
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

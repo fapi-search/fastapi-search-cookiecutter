@@ -1,0 +1,12 @@
+{
+  "project_name": "Search Project",
+  "project_slug": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
+  "default_host": "0.0.0.0",
+  "default_port": "8001",
+  "default_postgres_url": "http://db_user:db_pass@localhost:5432/app_db",
+  "default_search_url": "http://admin:admin@localhost:9200",
+  "search_backend": ["opensearch", "elasticsearch"],
+  "_copy_without_render": [
+    "*.html"
+  ]
+}

@@ -1,0 +1,30 @@
+* FastAPI Search Cookiecutter
+This cookiecutter builds a lean microservice that interacts with an RDBMS, currently only [[https://www.postgresql.org/][PostgreSQL]], and a search database, currently either [[https://opensearch.org/][OpenSearch]] or [[https://www.elastic.co/][ElasticSearch]].
+** Usage
+- Install cookiecutter per the [[https://cookiecutter.readthedocs.io/en/stable/installation.html][cookiecutter docs]]
+  
+- Clone this repo
+#+begin_src bash
+cookiecutter https://github.com/fapi-search/fastapi-search-cookiecutter.git
+#+end_src
+
+- Answer a few questions, e.g.,
+#+begin_src bash
+project_name [Search Project]: Searchy Terchy
+project_slug [searchy-terchy]: 
+default_host [0.0.0.0]: 
+default_port [8001]: 
+default_postgres_url [http://db_user:db_pass@localhost:5432/app_db]: 
+default_search_url [http://admin:admin@localhost:9200]: 
+Select search_backend:
+1 - opensearch
+2 - elasticsearch
+Choose from 1, 2 [1]: 1
+#+end_src
+
+- Try it out
+#+begin_src bash
+  cd searchy-terchy
+  poetry install
+  poetry run ./run.sh
+#+end_src

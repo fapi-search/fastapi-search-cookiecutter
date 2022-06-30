@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "fastapi-search"
+version = "0.1.0"
+description = "FastAPI Search project starter template"
+authors = ["fapi-search"]
+
+[tool.poetry.dependencies]
+python = "3.10.*"
+pytest = ">=7"
+fastapi = "^0.78.0"
+uvicorn = {extras = ["standard"], version = "^0.18.2"}
+pydantic = {extras = ["email", "dotenv"], version = "^1.9.1"}
+databases = {extras = ["asyncpg"], version = "^0.6.0"}
+Jinja2 = "^3.1.2"
+
+[tool.poetry.dev-dependencies]
+black = "^22.6.0"
+mypy = "^0.961"
+debugpy = "^1.6.0"
+pylint = "^2.14.4"
+python-lsp-server = "^1.4.1"
+python-lsp-black = "^1.2.1"
+pyls-isort = "^0.2.2"
+isort = "^5.10.1"
+pylsp-mypy = "^0.5.8"
+flake8 = "^4.0.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
