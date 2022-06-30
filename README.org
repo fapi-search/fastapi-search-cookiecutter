@@ -3,7 +3,7 @@ This cookiecutter builds a lean microservice that interacts with an RDBMS, curre
 ** Usage
 - Install cookiecutter per the [[https://cookiecutter.readthedocs.io/en/stable/installation.html][cookiecutter docs]]
   
-- Clone this repo
+- Run ~cookiecutter~ on this repo (or clone it and cite it locally.)
 #+begin_src bash
 cookiecutter https://github.com/fapi-search/fastapi-search-cookiecutter.git
 #+end_src
