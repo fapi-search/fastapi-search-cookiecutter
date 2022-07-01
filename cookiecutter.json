@@ -6,6 +6,8 @@
   "default_postgres_url": "http://db_user:db_pass@localhost:5432/app_db",
   "default_search_url": "http://admin:admin@localhost:9200",
   "search_backend": ["opensearch", "elasticsearch"],
+  "initial_git_commit_message": "Initial commit from https://github.com/fapi-search/fastapi-search-cookiecutter template",
+  "use_precommit": "y",
   "_copy_without_render": [
     "*.html"
   ]
