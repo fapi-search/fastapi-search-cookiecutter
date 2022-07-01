@@ -1,10 +1,14 @@
-from typing import Generator
+from __future__ import annotations
+
+from typing import AsyncGenerator
+
+from databases import Database
 
 from app.db.database import app_database
 
 
-def get_db() -> Generator:
+async def get_db() -> AsyncGenerator[Database, None]:
     try:
-        yield app_database.get_database()
+        yield await app_database.get_database()
     finally:
         pass

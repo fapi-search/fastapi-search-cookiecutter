@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from databases import Database, DatabaseURL
 
 from app.core.config import settings

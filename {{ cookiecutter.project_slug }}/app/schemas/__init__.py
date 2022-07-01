@@ -1,12 +1,22 @@
-from .inventory import InventoryUpsert  # noqa: F401
-from .inventory import (Inventory, InventoryWithWidgets,
-                        InventoryWithWidgetsList)
-from .sprocket import Sprocket, SprocketCreate  # noqa: F401
-from .widget import Widget, WidgetCreate, WidgetWithSprockets  # noqa: F401
+from __future__ import annotations
+
+from .inventory import (
+    Inventory,
+    InventoryUpsert,
+    InventoryWithWidgets,
+    InventoryWithWidgetsList,
+)
+from .sprocket import Sprocket, SprocketCreate
+from .widget import Widget, WidgetCreate, WidgetWithSprockets
 
 __all__ = [
     "Inventory",
     "InventoryUpsert",
     "InventoryWithWidgets",
     "InventoryWithWidgetsList",
+    "Sprocket",
+    "SprocketCreate",
+    "Widget",
+    "WidgetCreate",
+    "WidgetWithSprockets",
 ]
