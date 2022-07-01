@@ -20,7 +20,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install cookiecutter poetry
       - name: Cut cookie and setup system under test (/tmp/search-project)
-        run: cookiecutter --no-input --output-dir /tmp .
+        run: |
+          git config --global init.defaultBranch main
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          cookiecutter --no-input --output-dir /tmp .
       - name: Precommit tests
         run: |
           cd /tmp/search-project
