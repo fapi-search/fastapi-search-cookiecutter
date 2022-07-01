@@ -20,7 +20,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install cookiecutter poetry
       - name: Cut cookie and setup system under test (/tmp/search-project)
-        run: cookiecutter --output-dir --no-input /tmp
+        run: cookiecutter --no-input --output-dir /tmp .
       - name: Precommit tests
         run: |
           cd /tmp/search-project
