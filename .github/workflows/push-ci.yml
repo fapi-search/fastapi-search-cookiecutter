@@ -21,11 +21,7 @@ jobs:
           pip install cookiecutter poetry
       - name: Cut cookie and setup system under test (/tmp/search-project)
         run: cookiecutter --output-dir --no-input /tmp
-        with:
-          poetry-version: ${{ matrix.poetry-version }}
       - name: Precommit tests
         run: |
           cd /tmp/search-project
           poetry run pre-commit run --all-files
-        with:
-          poetry-version: ${{ matrix.poetry-version }}
