@@ -6,7 +6,6 @@ authors = ["fapi-search"]
 
 [tool.poetry.dependencies]
 python = "3.10.*"
-pytest = ">=7"
 fastapi = "^0.78.0"
 uvicorn = {extras = ["standard"], version = "^0.18.2"}
 pydantic = {extras = ["email", "dotenv"], version = "^1.9.1"}
@@ -29,3 +28,24 @@ pre-commit = "^2.19.0"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+plugins = [
+  "pydantic.mypy"
+]
+
+follow_imports = "silent"
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_any_generics = true
+check_untyped_defs = true
+no_implicit_reexport = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true
+
+[tool.isort]
+profile = "black"

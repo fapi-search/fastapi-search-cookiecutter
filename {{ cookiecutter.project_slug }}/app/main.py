@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from pathlib import Path
 
 from fastapi import APIRouter, FastAPI, Request, Response
@@ -29,6 +31,6 @@ app.include_router(root_router)
 
 if __name__ == "__main__":
     # Use this for debugging purposes only
-    import uvicorn  # type: ignore
+    import uvicorn
 
     uvicorn.run(app, host="{{ cookiecutter.default_host }}", port={{ cookiecutter.default_port }}, log_level="debug")
