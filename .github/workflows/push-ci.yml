@@ -1,0 +1,31 @@
+name: Push CI
+on: pull_request
+
+jobs:
+  ci:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10"]
+        poetry-version: ["1.1.13"]
+        os: [ubuntu-20.04, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install cookiecutter, poetry dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install cookiecutter poetry
+      - name: Cut cookie and setup system under test (/tmp/search-project)
+        run: |
+          git config --global init.defaultBranch main
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          cookiecutter --no-input --output-dir /tmp .
+      - name: Precommit tests
+        run: |
+          cd /tmp/search-project
+          poetry run pre-commit run --all-files
