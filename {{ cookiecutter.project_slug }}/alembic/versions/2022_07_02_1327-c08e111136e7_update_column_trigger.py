@@ -1,10 +1,12 @@
 """update column trigger
 
 Revision ID: c08e111136e7
-Revises: 
+Revises:
 Create Date: 2022-07-02 13:27:25.506271
 
 """
+from __future__ import annotations
+
 from alembic_utils.pg_function import PGFunction
 
 from alembic import op
