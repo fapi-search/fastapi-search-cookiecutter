@@ -24,11 +24,13 @@ class Settings(BaseSettings):
         raise ValueError(v)
 
     APP_DATABASE_URL: str | DatabaseURL = DatabaseURL(
-        "{{ cookiecutter.default_postgres_url }}"
+        "postgresql+asyncpg://db_user:db_pass@localhost:5432/app_db"
     )
 
     class Config:
         case_sensitive = True
+        env_file = ".env"
+        env_file_encoding = "utf-8"
 
 
 settings = Settings()

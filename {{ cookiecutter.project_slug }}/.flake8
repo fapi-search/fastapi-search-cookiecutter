@@ -2,7 +2,9 @@
 max-line-length = 88
 exclude = .git,__pycache__,__init__.py,.mypy_cache,.pytest_cache
 inline-quotes = double
-ignore = ANN101, FS003, TC002
 type-checking-pydantic-enabled-baseclass-passlist = NamedTuple, TypedDict
 extend-immutable-calls = Path, Depends
 classmethod-decorators = classmethod, validator
+ignore = ANN101, FS003, TC002
+per-file-ignores =
+    alembic/env.py: E800
