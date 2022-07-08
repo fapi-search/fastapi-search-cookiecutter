@@ -2,25 +2,35 @@ from __future__ import annotations
 
 from databases import Database, DatabaseURL
 
-from app.core.config import settings
-
 
 class AppDatabase:
 
     _url: DatabaseURL
     _database: Database
 
-    async def setup(self, url: str | DatabaseURL) -> None:
+    def config(self, url: str | DatabaseURL, force_rollback: bool = False) -> None:
+        if hasattr(self, "_database"):
+            return
         self._url = DatabaseURL(url) if isinstance(url, str) else url
-        self._database = Database(self._url)
+        self._database = Database(self._url, force_rollback=force_rollback)
+
+    async def connect(self) -> None:
+        assert hasattr(
+            self, "_database"
+        ), "App database url not set, initialize with app_database.setup()"
         await self._database.connect()
 
+    async def disconnect(self) -> None:
+        assert hasattr(
+            self, "_database"
+        ), "App database url not set, initialize with app_database.setup()"
+        await self._database.disconnect()
+
     async def get_database(self) -> Database:
-        if not self._database:
-            raise Exception(
-                "App database url not set, initialize with app_database.setup()"
-            )
-        return Database(settings.APP_DATABASE_URL)
+        assert hasattr(
+            self, "_database"
+        ), "App database url not set, initialize with app_database.setup()"
+        return self._database
 
 
 app_database = AppDatabase()

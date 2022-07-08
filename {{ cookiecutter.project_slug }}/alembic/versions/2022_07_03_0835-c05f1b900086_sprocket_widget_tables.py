@@ -22,7 +22,7 @@ def upgrade() -> None:
     sql_statements = [
         """
 CREATE TABLE IF NOT EXISTS widget (
-    uuid UUID PRIMARY KEY,
+    uuid UUID PRIMARY KEY default gen_random_uuid(),
     created TIMESTAMPTZ NOT NULL default CURRENT_TIMESTAMP,
     updated TIMESTAMPTZ NOT NULL default CURRENT_TIMESTAMP,
     name TEXT
@@ -36,7 +36,7 @@ CREATE TRIGGER update_timestamp
         """,
         """
 CREATE TABLE IF NOT EXISTS sprocket (
-    uuid UUID PRIMARY KEY,
+    uuid UUID PRIMARY KEY default gen_random_uuid(),
     created TIMESTAMPTZ NOT NULL default CURRENT_TIMESTAMP,
     updated TIMESTAMPTZ NOT NULL default CURRENT_TIMESTAMP,
     teeth INTEGER NOT NULL default 0,

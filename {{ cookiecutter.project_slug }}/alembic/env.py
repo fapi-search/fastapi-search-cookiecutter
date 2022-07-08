@@ -8,7 +8,6 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from alembic import context
-from app.core.config import settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -30,7 +29,48 @@ target_metadata = None
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-config.set_main_option("sqlalchemy.url", str(settings.APP_DATABASE_URL))
+
+async def create_database(database_url: DatabaseURL, reset: bool = False) -> None:
+    from asyncpg.exceptions import DuplicateDatabaseError
+    from databases import Database
+
+    postgres_database_url = DatabaseURL(str(database_url)).replace(database="postgres")
+    database = Database(postgres_database_url)
+    try:
+        await database.connect()
+        if reset:
+            print(f"{database_url.database} dropped")
+            await database.execute(f"DROP DATABASE IF EXISTS {database_url.database}")
+        await database.execute(
+            f"CREATE DATABASE {database_url.database}"
+            f" WITH OWNER {database_url.username}"
+        )
+    except DuplicateDatabaseError:
+        print(f"{database_url.database} exists")
+    else:
+        print(f"{database_url.database} created")
+    finally:
+        await database.disconnect()
+
+
+tags = (context.get_tag_argument() or "").lower().split("_")
+if "test" in tags:
+    from databases import DatabaseURL
+
+    from tests.config import test_settings
+
+    app_database_url = DatabaseURL(test_settings.TEST_APP_DATABASE_URL)
+    assert app_database_url.database.startswith(
+        "test"
+    ), "test database name must start with 'test'"
+    asyncio.run(create_database(app_database_url, reset="reset" in tags))
+else:
+    from app.core.config import settings
+
+    app_database_url = settings.APP_DATABASE_URL
+
+print(f"using {app_database_url.obscure_password}")
+config.set_main_option("sqlalchemy.url", str(app_database_url))
 
 
 def run_migrations_offline() -> None:
