@@ -76,4 +76,7 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
+# IDEs
 .idea/
+*.wpr
+*.wpu

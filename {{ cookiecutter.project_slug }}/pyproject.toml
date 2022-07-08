@@ -27,6 +27,10 @@ pylsp-mypy = "^0.5.8"
 flake8 = "^4.0.1"
 pre-commit = "^2.19.0"
 sqlalchemy-stubs = "^0.4"
+pytest = "~=7.1"
+pytest-asyncio = "^0.18.3"
+async-asgi-testclient = "^1.4.11"
+pytest-cov = "^3.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -50,3 +54,6 @@ warn_untyped_fields = true
 
 [tool.isort]
 profile = "black"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
