@@ -3,7 +3,7 @@ from __future__ import annotations
 import pathlib
 
 from databases import DatabaseURL
-from pydantic import AnyHttpUrl, BaseSettings, validator
+from pydantic import BaseSettings
 
 # Project Directories
 ROOT = pathlib.Path(__file__).resolve().parent.parent
