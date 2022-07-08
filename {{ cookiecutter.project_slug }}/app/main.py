@@ -7,12 +7,24 @@ from fastapi.templating import Jinja2Templates
 
 from app.api.api_v1.api import api_router
 from app.core.config import settings
+from app.db.database import app_database
 
 BASE_PATH = Path(__file__).resolve().parent
 TEMPLATES = Jinja2Templates(directory=str(BASE_PATH / "templates"))
 
 root_router = APIRouter()
 app = FastAPI(title="{{ cookiecutter.project_name }}")
+
+
+@app.on_event("startup")
+async def startup_event() -> None:
+    app_database.config(settings.APP_DATABASE_URL)
+    await app_database.connect()
+
+
+@app.on_event("shutdown")
+async def shutdown_event() -> None:
+    await app_database.disconnect()
 
 
 @root_router.get("/", status_code=200)

@@ -3,7 +3,8 @@ from __future__ import annotations
 from datetime import datetime
 from uuid import UUID, uuid4
 
-from fastapi import APIRouter, Body, Path, status
+from databases import Database
+from fastapi import APIRouter, Body, Depends, Path, status
 
 from app.schemas import (
     Sprocket,
@@ -13,15 +14,20 @@ from app.schemas import (
     WidgetWithSprockets,
 )
 
+from ...deps import get_app_db
+
 router = APIRouter()
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=Widget)
-async def create_widget(*, widget_in: WidgetCreate) -> Widget:
+async def create_widget(
+    *, widget_in: WidgetCreate, db: Database = Depends(get_app_db)
+) -> Widget:
     """Create a widget (MOCKED)"""
 
-    now = datetime.now()
-    return Widget(created=now, updated=now, uuid=uuid4(), **widget_in.dict())
+    sql = """INSERT INTO widget (name) VALUES (:name) RETURNING *"""
+    from_db = await db.fetch_one(sql, widget_in.dict())
+    return Widget.from_orm(from_db)
 
 
 @router.get("/{uuid}", response_model=WidgetWithSprockets)

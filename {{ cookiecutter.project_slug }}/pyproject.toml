@@ -56,4 +56,4 @@ warn_untyped_fields = true
 profile = "black"
 
 [tool.pytest.ini_options]
-asyncio_mode = "auto"
+asyncio_mode = "strict"
