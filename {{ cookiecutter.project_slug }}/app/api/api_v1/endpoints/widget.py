@@ -1,31 +1,65 @@
 from __future__ import annotations
 
-from uuid import UUID
+from datetime import datetime
+from uuid import UUID, uuid4
 
-from fastapi import APIRouter, Path, status
+from fastapi import APIRouter, Body, Path, status
 
-from app.schemas import SprocketCreate, Widget, WidgetCreate, WidgetWithSprockets
+from app.schemas import (
+    Sprocket,
+    SprocketCreate,
+    Widget,
+    WidgetCreate,
+    WidgetWithSprockets,
+)
 
 router = APIRouter()
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=Widget)
 async def create_widget(*, widget_in: WidgetCreate) -> Widget:
-    """Create a widget"""
-    ...
+    """Create a widget (MOCKED)"""
+
+    now = datetime.now()
+    return Widget(created=now, updated=now, uuid=uuid4(), **widget_in.dict())
 
 
-@router.get("/{widget_uuid}", response_model=WidgetWithSprockets)
+@router.get("/{uuid}", response_model=WidgetWithSprockets)
 async def get_widget(
-    *, widget_uuid: UUID = Path(title="uuid of widget")
+    *, uuid: UUID = Path(description="widget uuid")
 ) -> WidgetWithSprockets:
-    """Get a widget"""
-    ...
+    """Get a widget (MOCKED)"""
+
+    now = datetime.now()
+    return WidgetWithSprockets(
+        created=now, updated=now, uuid=uuid, sprockets=[], name=str(uuid)
+    )
 
 
-@router.put("/{widget_uuid}", response_model=WidgetWithSprockets)
-async def add_sprocket(
-    *, widget_uuid: UUID = Path(title="uuid of widget"), sprocket_in: SprocketCreate
+@router.put("/{uuid}", response_model=WidgetWithSprockets)
+async def add_sprockets(
+    *,
+    uuid: UUID = Path(description="widget uuid"),
+    sprockets: list[SprocketCreate] = Body(
+        title="Sprockets to create and add to widget"
+    ),
 ) -> WidgetWithSprockets:
-    """Add a sprocket to a widget"""
-    ...
+    """Add a sprockets to a widget (MOCKED)"""
+
+    now = datetime.now()
+    return WidgetWithSprockets(
+        created=now,
+        updated=now,
+        uuid=uuid,
+        sprockets=[
+            Sprocket(
+                uuid=uuid4(),
+                widget_uuid=uuid,
+                teeth=sprocket.teeth,
+                created=now,
+                updated=now,
+            )
+            for sprocket in sprockets
+        ],
+        name=str(uuid),
+    )

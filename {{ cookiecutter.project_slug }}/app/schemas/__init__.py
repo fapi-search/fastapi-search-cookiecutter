@@ -7,7 +7,7 @@ from .inventory import (
     InventoryWithWidgetsList,
 )
 from .sprocket import Sprocket, SprocketCreate
-from .widget import Widget, WidgetCreate, WidgetWithSprockets
+from .widget import Widget, WidgetCreate, WidgetInDB, WidgetWithSprockets
 
 __all__ = [
     "Inventory",
@@ -16,7 +16,8 @@ __all__ = [
     "InventoryWithWidgetsList",
     "Sprocket",
     "SprocketCreate",
-    "Widget",
     "WidgetCreate",
+    "WidgetInDB",
+    "Widget",
     "WidgetWithSprockets",
 ]

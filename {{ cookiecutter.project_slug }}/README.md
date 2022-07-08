@@ -39,3 +39,8 @@ poetry run alembic upgrade head
 ```bash
 poetry run ./run.sh
 ```
+
+### Run the pre-commit linters, formatters, ...
+```bash
+poetry run pre-commit run --all-files
+```
