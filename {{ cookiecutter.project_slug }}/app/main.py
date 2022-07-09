@@ -8,6 +8,7 @@ from fastapi.templating import Jinja2Templates
 from app.api.api_v1.api import api_router
 from app.core.config import settings
 from app.db.database import app_database
+from app.db.search import search_database
 
 BASE_PATH = Path(__file__).resolve().parent
 TEMPLATES = Jinja2Templates(directory=str(BASE_PATH / "templates"))
@@ -19,6 +20,7 @@ app = FastAPI(title="{{ cookiecutter.project_name }}")
 @app.on_event("startup")
 async def startup_event() -> None:
     app_database.config(settings.APP_DATABASE_URL)
+    search_database.config(settings.SEARCH_DATABASE_URL)
     await app_database.connect()
 
 
@@ -28,12 +30,8 @@ async def shutdown_event() -> None:
 
 
 @root_router.get("/", status_code=200)
-def root(
-    request: Request,
-) -> Response:
-    """
-    Root GET
-    """
+def root(request: Request) -> Response:
+    """Root GET"""
     return TEMPLATES.TemplateResponse("index.html", {"request": request})
 
 

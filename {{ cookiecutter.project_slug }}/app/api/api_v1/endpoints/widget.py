@@ -4,8 +4,10 @@ from datetime import datetime
 from uuid import UUID, uuid4
 
 from databases import Database
-from fastapi import APIRouter, Body, Depends, Path, status
+from fastapi import APIRouter, BackgroundTasks, Body, Depends, Path, status
+from opensearchpy._async.client import AsyncOpenSearch
 
+from app.api import deps
 from app.schemas import (
     Sprocket,
     SprocketCreate,
@@ -14,20 +16,32 @@ from app.schemas import (
     WidgetWithSprockets,
 )
 
-from ...deps import get_app_db
-
 router = APIRouter()
+
+
+async def update_search(widget: Widget, search_db: AsyncOpenSearch) -> None:
+    response = await search_db.index(
+        index="widgets", body=widget.dict(), id=widget.uuid, refresh=True
+    )
+    if response["result"] not in ["created"]:
+        print(response)
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=Widget)
 async def create_widget(
-    *, widget_in: WidgetCreate, db: Database = Depends(get_app_db)
+    *,
+    widget_in: WidgetCreate,
+    background_tasks: BackgroundTasks,
+    app_db: Database = Depends(deps.get_app_db),
+    search_db: AsyncOpenSearch = Depends(deps.get_search_db),
 ) -> Widget:
     """Create a widget (MOCKED)"""
 
     sql = """INSERT INTO widget (name) VALUES (:name) RETURNING *"""
-    from_db = await db.fetch_one(sql, widget_in.dict())
-    return Widget.from_orm(from_db)
+    from_db = await app_db.fetch_one(sql, widget_in.dict())
+    widget = Widget.from_orm(from_db)
+    background_tasks.add_task(update_search, widget, search_db)
+    return widget
 
 
 @router.get("/{uuid}", response_model=WidgetWithSprockets)

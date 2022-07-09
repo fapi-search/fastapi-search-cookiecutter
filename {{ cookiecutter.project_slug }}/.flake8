@@ -5,6 +5,6 @@ inline-quotes = double
 type-checking-pydantic-enabled-baseclass-passlist = NamedTuple, TypedDict
 extend-immutable-calls = Depends, Path, Query, Body
 classmethod-decorators = classmethod, validator
-ignore = ANN101, FS003, TC002
+ignore = ANN101, D100, D103, D400, FS003, TC002
 per-file-ignores =
     alembic/env.py: E800

@@ -24,7 +24,11 @@ class Settings(BaseSettings):
         raise ValueError(v)
 
     APP_DATABASE_URL: str | DatabaseURL = DatabaseURL(
-        "postgresql+asyncpg://db_user:db_pass@localhost:5432/app_db"
+        "postgresql+asyncpg://db_user:db_pass@localhost:5432/app_db?sslmode=disable"
+    )
+
+    SEARCH_DATABASE_URL: str | DatabaseURL = DatabaseURL(
+        "https://admin:admin@localhost:9200?sslmode=disable"
     )
 
     class Config:

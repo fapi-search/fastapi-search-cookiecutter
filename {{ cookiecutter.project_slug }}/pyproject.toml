@@ -13,6 +13,8 @@ databases = {extras = ["asyncpg"], version = "^0.6.0"}
 Jinja2 = "^3.1.2"
 alembic = "^1.8.0"
 alembic_utils = "^0.7.7"
+opensearch-py = "^2.0.0"
+aiohttp = "^3.8.1"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"
