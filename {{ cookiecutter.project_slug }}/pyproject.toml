@@ -13,7 +13,11 @@ databases = {extras = ["asyncpg"], version = "^0.6.0"}
 Jinja2 = "^3.1.2"
 alembic = "^1.8.0"
 alembic_utils = "^0.7.7"
+{% if cookiecutter.search_backend == "elasticsearch" -%}
+elasticsearch = {extras = ["async"], version = "^8.3.1"}
+{% elif cookiecutter.search_backend == "opensearch" -%}
 opensearch-py = "^2.0.0"
+{% endif -%}
 aiohttp = "^3.8.1"
 
 [tool.poetry.dev-dependencies]

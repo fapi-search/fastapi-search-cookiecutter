@@ -20,13 +20,15 @@ app = FastAPI(title="{{ cookiecutter.project_name }}")
 @app.on_event("startup")
 async def startup_event() -> None:
     app_database.config(settings.APP_DATABASE_URL)
-    search_database.config(settings.SEARCH_DATABASE_URL)
     await app_database.connect()
+    search_database.config(settings.SEARCH_DATABASE_URL)
+    await search_database.connect()
 
 
 @app.on_event("shutdown")
 async def shutdown_event() -> None:
     await app_database.disconnect()
+    await search_database.disconnect()
 
 
 @root_router.get("/", status_code=200)

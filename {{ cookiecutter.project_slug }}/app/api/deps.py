@@ -3,10 +3,9 @@ from __future__ import annotations
 from typing import AsyncGenerator
 
 from databases import Database
-from opensearchpy._async.client import AsyncOpenSearch
 
 from app.db.database import app_database
-from app.db.search import search_database
+from app.db.search import AsyncSearch, search_database
 
 
 async def get_app_db() -> AsyncGenerator[Database, None]:
@@ -16,7 +15,7 @@ async def get_app_db() -> AsyncGenerator[Database, None]:
         pass
 
 
-async def get_search_db() -> AsyncGenerator[AsyncOpenSearch, None]:
+async def get_search_db() -> AsyncGenerator[AsyncSearch, None]:
     try:
         yield await search_database.get_database()
     finally:

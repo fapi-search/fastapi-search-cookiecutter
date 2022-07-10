@@ -24,11 +24,11 @@ class Settings(BaseSettings):
         raise ValueError(v)
 
     APP_DATABASE_URL: str | DatabaseURL = DatabaseURL(
-        "postgresql+asyncpg://db_user:db_pass@localhost:5432/app_db?sslmode=disable"
+        "{{ cookiecutter.default_postgres_url }}"  # noqa: E501
     )
 
     SEARCH_DATABASE_URL: str | DatabaseURL = DatabaseURL(
-        "https://admin:admin@localhost:9200?sslmode=disable"
+        "{{ cookiecutter.default_search_url }}"  # noqa: E501
     )
 
     class Config:

@@ -5,9 +5,9 @@ from uuid import UUID, uuid4
 
 from databases import Database
 from fastapi import APIRouter, BackgroundTasks, Body, Depends, Path, status
-from opensearchpy._async.client import AsyncOpenSearch
 
 from app.api import deps
+from app.db.search import AsyncSearch
 from app.schemas import (
     Sprocket,
     SprocketCreate,
@@ -19,9 +19,9 @@ from app.schemas import (
 router = APIRouter()
 
 
-async def update_search(widget: Widget, search_db: AsyncOpenSearch) -> None:
+async def update_search(widget: Widget, search_db: AsyncSearch) -> None:
     response = await search_db.index(
-        index="widgets", body=widget.dict(), id=widget.uuid, refresh=True
+        index="widgets", {% if cookiecutter.search_backend == "elasticsearch" %}document{% elif cookiecutter.search_backend == "opensearch" %}body{% endif %}=widget.dict(), id=widget.uuid, refresh=True
     )
     if response["result"] not in ["created"]:
         print(response)
@@ -33,7 +33,7 @@ async def create_widget(
     widget_in: WidgetCreate,
     background_tasks: BackgroundTasks,
     app_db: Database = Depends(deps.get_app_db),
-    search_db: AsyncOpenSearch = Depends(deps.get_search_db),
+    search_db: AsyncSearch = Depends(deps.get_search_db),
 ) -> Widget:
     """Create a widget (MOCKED)"""
 

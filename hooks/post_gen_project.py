@@ -13,5 +13,10 @@ use_precommit = "{{ cookiecutter.use_precommit }}".lower().startswith("y")
 if use_precommit:
     print("*** pre-commit install ***")
     os.system("poetry run pre-commit install")
+    print("*** poetry run pre-commit run --all-files ***")
+    status = os.system("poetry run pre-commit run --all-files")
+    if status:
+        print("*** git commit -a -m 'pre-commit cleanup' ***")
+        os.system("git commit -a -m 'pre-commit cleanup'")
 else:
     os.unlink(".pre-commit-config.yaml")
