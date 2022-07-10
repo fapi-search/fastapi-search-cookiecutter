@@ -12,7 +12,11 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 class TestSettings(BaseSettings):
 
     TEST_APP_DATABASE_URL: str | DatabaseURL = DatabaseURL(
-        "postgresql+asyncpg://db_user:db_pass@localhost:5432/test_app_db"
+        "{{ cookiecutter.default_postgres_url | test_database_url }}"  # noqa: E501
+    )
+
+    TEST_SEARCH_DATABASE_URL: str | DatabaseURL = DatabaseURL(
+        "{{ cookiecutter.default_search_url }}"  # noqa: E501
     )
 
     class Config:
