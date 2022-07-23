@@ -16,7 +16,7 @@ Nuetrality.
 cookiecutter https://github.com/fapi-search/fastapi-search-cookiecutter.git
 #+end_src
 
-- Answer a the cookiecutter questions or accept defaults, e.g.,
+- Answer the cookiecutter questions or accept defaults, e.g.,
 #+begin_src bash
 project_name [Search Project]: 
 project_slug [search-project]: 
