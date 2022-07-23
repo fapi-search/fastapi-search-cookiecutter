@@ -59,5 +59,8 @@ poetry run pre-commit run --all-files
 ### Build and run the docker image
 ```bash
 docker build -t {{ cookiecutter.project_slug }} -f docker/Dockerfile .
-docker run -p {{ cookiecutter.default_docker_port }}:{{ cookiecutter.default_docker_port }} {{ cookiecutter.project_slug }}
+docker run -p {{ cookiecutter.default_docker_port }}:{{ cookiecutter.default_docker_port }} \
+	-e 'APP_DATABASE_URL=$(APP_DATABASE_URL) -e 'SEARCH_DATABASE_URL=$(SEARCH_DATABASE_URL) \
+	{{ cookiecutter.project_slug }}
 ```
+where `APP_DATABASE_URL` and `SEARCH_DATABASE_URL` are urls accessible from the container's networking.

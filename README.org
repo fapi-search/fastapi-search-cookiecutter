@@ -48,11 +48,11 @@ use_precommit [y]:
 
 - Try it out
 #+begin_src bash
-  cd searchy-project
+  cd search-project
   poetry install
   poetry run ./run.sh
 #+end_src
-And visit http://localhost:8000/docs.
+And visit http://localhost:8001/docs. Docker instructions are in the templated readme.
 
 Note that if you don't have a Postgres database created and migrated or an Elastic/Open Search service running, API endpoints will fail.
 ** Contributing
