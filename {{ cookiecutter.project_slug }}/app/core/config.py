@@ -7,6 +7,7 @@ from pydantic import AnyHttpUrl, BaseSettings, validator
 
 # Project Directories
 ROOT = pathlib.Path(__file__).resolve().parent.parent
+ENV_FILE = ROOT.parent / ".env"
 
 
 class Settings(BaseSettings):
@@ -33,7 +34,7 @@ class Settings(BaseSettings):
 
     class Config:
         case_sensitive = True
-        env_file = ".env"
+        env_file = ENV_FILE
         env_file_encoding = "utf-8"
 
 

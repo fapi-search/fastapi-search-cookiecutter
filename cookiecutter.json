@@ -1,12 +1,12 @@
 {
   "project_name": "Search Project",
   "project_slug": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
-  "default_host": "0.0.0.0",
-  "default_port": "8001",
+  "default_local_port": "8001",
+  "default_local_host": "localhost",
+  "default_docker_port": "8000",
   "search_backend": ["elasticsearch", "opensearch"],
-  "default_postgres_url": "postgresql+asyncpg://db_user:db_pass@localhost:5432/app_db?sslmode=disable",
-  "default_search_url": "{% if cookiecutter.search_backend == 'elasticsearch' %}http://elastic:elastic@localhost:9200?sslmode=disable{% elif cookiecutter.search_backend == 'opensearch' %}http://admin:admin@localhost:9200?sslmode=disable{% endif %}",
-  "initial_git_commit_message": "Initial commit from https://github.com/fapi-search/fastapi-search-cookiecutter template",
+  "default_postgres_url": "postgresql+asyncpg://db_user:db_pass@localhost:5432/app_db",
+  "default_search_url": "{% if cookiecutter.search_backend == 'elasticsearch' %}http://elastic:elastic@localhost:9200{% elif cookiecutter.search_backend == 'opensearch' %}http://admin:admin@localhost:9200{% endif %}",
   "use_precommit": "y",
   "_copy_without_render": [
     "*.html"

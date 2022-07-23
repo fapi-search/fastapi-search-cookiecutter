@@ -16,29 +16,49 @@ Nuetrality.
 cookiecutter https://github.com/fapi-search/fastapi-search-cookiecutter.git
 #+end_src
 
-- Answer a few questions, e.g.,
+- Answer a the cookiecutter questions or accept defaults, e.g.,
 #+begin_src bash
-project_name [Search Project]: Searchy Terchy
-project_slug [searchy-terchy]: 
-default_host [0.0.0.0]: 
-default_port [8001]: 
-default_postgres_url [http://db_user:db_pass@localhost:5432/app_db]: 
-default_search_url [http://admin:admin@localhost:9200]: 
+project_name [Search Project]: 
+project_slug [search-project]: 
+default_local_host [0.0.0.0]: 
+default_local_port [8001]: 
+default_docker_port [8000]: 
 Select search_backend:
-1 - opensearch
-2 - elasticsearch
-Choose from 1, 2 [1]: 1
+1 - elasticsearch
+2 - opensearch
+Choose from 1, 2 [1]: 
+default_postgres_url [postgresql+asyncpg://db_user:db_pass@localhost:5432/app_db]: 
+default_search_url [http://elastic:elastic@localhost:9200]: 
+use_precommit [y]: 
 #+end_src
+
+- After building the project tree, this cookie cutter will do the following post-processing (outputs ommited)...
+  - ~*** git init && git add . && git commit ***~
+    Initialize a git repo and commit copied files
+  - ~*** poetry install ***~
+    Install with poetry into virtualenv from ~pyproject.toml~.
+  - ~*** git add poetry.lock && git commit -m 'Add poetry.lock' ***~
+    Add the ~poetry.lock~ file to the repo. (We keep the lock file out of the cookiecutter intentionally.)
+  - ~*** poetry run pre-commit install ***~
+    Install the pre-commit tools from ~.pre-commit-config.yaml~ (if pre-commit is selected). See [[https://pre-commit.com/][pre-commit]] for more information.
+  - ~*** poetry run pre-commit run --all-files ***~
+    Run pre-commit in the project. This cleans up formatting and linting issues that may occur in the application of the cookiecutter template.
+  - ~*** git commit -a -m 'pre-commit cleanup' ***~
+    If the previous step changed anything, commit those changes.
 
 - Try it out
 #+begin_src bash
-  cd searchy-terchy
+  cd searchy-project
   poetry install
   poetry run ./run.sh
 #+end_src
+And visit http://localhost:8000/docs.
+
+Note that if you don't have a Postgres database created and migrated or an Elastic/Open Search service running, API endpoints will fail.
 ** Contributing
 See the [[./CONTRIBUTING.org][contributing doc]].
 ** Acknowledgements
 - [[https://christophergs.com/][ChristopherGS's]] fine [[https://christophergs.com/tutorials/ultimate-fastapi-tutorial-pt-1-hello-world/][FastAPI tutorial]] (one of the best out there), especially borrowed snippets from his [[https://github.com/ChristopherGS/ultimate-fastapi-tutorial/tree/main/part-08-structure-and-versioning][part-08-structure-and-versioning]] repo files.
 - The aforementioned doc draws heavily on the [[https://fastapi.tiangolo.com/project-generation/#full-stack-fastapi-postgresql][Full Stack FastAPI PostgreSQL]] template and of course [[https://fastapi.tiangolo.com/][FastAPI]] itself.
 - The [[https://www.starlette.io/][Starlette Project]] and anything [[https://github.com/encode][Encode]] touches, bedrock of first class Python tech.
+- Dockerfile borrowed from https://github.com/svx/poetry-fastapi-docker which is forked from https://github.com/michaeloliverx/python-poetry-docker-example

@@ -35,7 +35,7 @@ async def create_widget(
     app_db: Database = Depends(deps.get_app_db),
     search_db: AsyncSearch = Depends(deps.get_search_db),
 ) -> Widget:
-    """Create a widget (MOCKED)"""
+    """Create a widget"""
 
     sql = """INSERT INTO widget (name) VALUES (:name) RETURNING *"""
     from_db = await app_db.fetch_one(sql, widget_in.dict())

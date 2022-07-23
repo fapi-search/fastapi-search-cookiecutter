@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 from logging.config import fileConfig
 
+from databases import DatabaseURL
 from sqlalchemy import engine_from_config, pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import AsyncEngine
@@ -55,8 +56,6 @@ async def create_database(database_url: DatabaseURL, reset: bool = False) -> Non
 
 tags = (context.get_tag_argument() or "").lower().split("_")
 if "test" in tags:
-    from databases import DatabaseURL
-
     from tests.config import test_settings
 
     app_database_url = DatabaseURL(test_settings.TEST_APP_DATABASE_URL)
@@ -67,7 +66,7 @@ if "test" in tags:
 else:
     from app.core.config import settings
 
-    app_database_url = settings.APP_DATABASE_URL
+    app_database_url = DatabaseURL(settings.APP_DATABASE_URL)
 
 print(f"using {app_database_url.obscure_password}")
 config.set_main_option("sqlalchemy.url", str(app_database_url))

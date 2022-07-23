@@ -6,7 +6,8 @@ from databases import DatabaseURL
 from pydantic import BaseSettings
 
 # Project Directories
-ROOT = pathlib.Path(__file__).resolve().parent.parent
+ROOT = pathlib.Path(__file__).resolve().parent
+ENV_FILE = ROOT.parent / ".env"
 
 
 class TestSettings(BaseSettings):
@@ -21,7 +22,7 @@ class TestSettings(BaseSettings):
 
     class Config:
         case_sensitive = True
-        env_file = ".env"
+        env_file = ENV_FILE
         env_file_encoding = "utf-8"
 
 
