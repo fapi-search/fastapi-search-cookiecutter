@@ -37,6 +37,7 @@ pytest = "~=7.1"
 pytest-asyncio = "^0.18.3"
 async-asgi-testclient = "^1.4.11"
 pytest-cov = "^3.0.0"
+coverage = {extras = ["toml"], version = "^6.4.2"}
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -63,3 +64,13 @@ profile = "black"
 
 [tool.pytest.ini_options]
 asyncio_mode = "strict"
+#filterwarnings = ["ignore::ElasticsearchWarning"]
+filterwarnings = [
+    "error",
+{% if cookiecutter.search_backend == "elasticsearch" -%}
+    "ignore::elasticsearch.ElasticsearchWarning",
+{% endif -%}
+]
+
+[tool.coverage.run]
+source = ["app"]

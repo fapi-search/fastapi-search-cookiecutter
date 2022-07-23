@@ -1,12 +1,12 @@
 # Search Project
 ## Local setup
 ### Prerequisites
-- [Poetry](https://python-poetry.org/)
 - [Pyenv](https://github.com/pyenv/pyenv)
 - Python >= 3.10 in `pyenv versions` list
+- [Poetry](https://python-poetry.org/)
 
 ### Python env installation
-Note: This step is a sanity check; the cookiecutter should have already run.
+Note: You may see 0 install; the cookiecutter post processing will have done this for you.
 ```bash
 poetry install
 ```
@@ -35,6 +35,17 @@ database created above.
 poetry run alembic upgrade head
 ```
 
+### Get an "{{ cookiecutter.search_backend|capitalize }}" service up
+See the {% if cookiecutter.search_backend == 'elasticsearch' %}[Elasticsearch install docs](https://www.elastic.co/guide/en/elasticsearch/reference/master/_installation.html){% elif cookiecutter.search_backend == 'opensearch' %}[Opensearch install docs](https://opensearch.org/docs/latest/opensearch/install/index/){% endif -%} for more information.
+
+{% if cookiecutter.search_backend == 'elasticsearch' -%}
+Note that presently this project is tested against v7, but should work with later versions.
+{% endif -%}
+
+### Double check env vars
+
+This project will look for a top level `.env` file. A `sample.env` is provided to copy from.
+
 ### Run the webapp
 ```bash
 poetry run ./run.sh
@@ -44,3 +55,12 @@ poetry run ./run.sh
 ```bash
 poetry run pre-commit run --all-files
 ```
+
+### Build and run the docker image
+```bash
+docker build -t {{ cookiecutter.project_slug }} -f docker/Dockerfile .
+docker run -p {{ cookiecutter.default_docker_port }}:{{ cookiecutter.default_docker_port }} \
+	-e 'APP_DATABASE_URL=$(APP_DATABASE_URL) -e 'SEARCH_DATABASE_URL=$(SEARCH_DATABASE_URL) \
+	{{ cookiecutter.project_slug }}
+```
+where `APP_DATABASE_URL` and `SEARCH_DATABASE_URL` are urls accessible from the container's networking.

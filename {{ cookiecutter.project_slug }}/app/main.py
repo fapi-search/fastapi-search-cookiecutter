@@ -45,4 +45,4 @@ if __name__ == "__main__":
     # Use this for debugging purposes only
     import uvicorn
 
-    uvicorn.run(app, host="{{ cookiecutter.default_host }}", port={{ cookiecutter.default_port }}, log_level="debug")
+    uvicorn.run(app, host="{{ cookiecutter.default_local_host }}", port="{{ cookiecutter.default_local_port }}", log_level="debug")

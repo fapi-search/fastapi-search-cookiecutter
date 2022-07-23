@@ -18,7 +18,10 @@ class AppDatabase:
         assert hasattr(
             self, "_database"
         ), "App database url not set, initialize with app_database.setup()"
-        await self._database.connect()
+        try:
+            await self._database.connect()
+        except OSError as e:
+            print(f"Connect to {self._url.obscure_password} failed: {e}")
 
     async def disconnect(self) -> None:
         assert hasattr(
