@@ -47,3 +47,8 @@ jobs:
       - name: Run tests and coverage
         working-directory: /tmp/search-project
         run: docker compose -f docker/docker-compose.yml run --rm search_project_development ./scripts/test.sh 
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-report
+          path: /tmp/search-project/htmlcov
