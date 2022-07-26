@@ -25,15 +25,15 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
           cookiecutter --no-input --output-dir /tmp .
-          cd /tmp/search-project
       - name: Build docker images
-        run: |
-          pwd
-          cd /tmp/search-project
-          ./scripts/build.sh
+        working-directory: /tmp/search-project
+        run: ./scripts/build.sh
       - name: Run app_database, search_database services
+        working-directory: /tmp/search-project
         run: docker compose -f docker/docker-compose.yml up --build
       - name: Run linters via pre-commit
+        working-directory: /tmp/search-project
         run: docker compose -f docker/docker-compose.yml run --deamon --rm search_project_development ./scripts/lint.sh
       - name: Run tests and coverage
+        working-directory: /tmp/search-project
         run: docker compose -f docker/docker-compose.yml run --deamon --rm search_project_development ./scripts/test.sh
