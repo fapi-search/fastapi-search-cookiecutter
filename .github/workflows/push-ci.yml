@@ -2,7 +2,8 @@ name: Push CI
 on: pull_request
 
 jobs:
-  ci:
+  container-job:
+    name: ci
     strategy:
       fail-fast: false
       matrix:
@@ -10,6 +11,7 @@ jobs:
         poetry-version: ["1.1.13"]
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
+    container: ubuntu:20.04
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -39,4 +41,4 @@ jobs:
         run: docker compose -f docker/docker-compose.yml up --build --detach
       - name: Run tests and coverage
         working-directory: /tmp/search-project
-        run: poetry run ./scripts/test.sh
+        run: docker compose -f docker/docker-compose.yml run --rm search_project_development ./scripts/test.sh
