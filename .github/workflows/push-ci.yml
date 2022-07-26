@@ -11,7 +11,7 @@ jobs:
         poetry-version: ["1.1.13"]
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
-    container: ubuntu:20.04
+    container: python:3.10-slim-buster
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
