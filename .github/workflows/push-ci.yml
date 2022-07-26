@@ -37,8 +37,13 @@ jobs:
       - name: Run app_database, search_database services
         working-directory: /tmp/search-project
         run: docker compose -f docker/docker-compose.yml up --build --detach
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      - name: Wait for search database
+        uses: cygnetdigital/wait_for_response@v2.0.0
+        with:
+          url: 'http://localhost:9200/'
+          responseCode: '200'
+          timeout: 2000
+          interval: 500
       - name: Run tests and coverage
         working-directory: /tmp/search-project
         run: docker compose -f docker/docker-compose.yml run --rm search_project_development ./scripts/test.sh 
