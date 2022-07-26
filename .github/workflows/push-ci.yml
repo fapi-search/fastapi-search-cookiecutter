@@ -28,9 +28,6 @@ jobs:
       - name: Build docker images
         working-directory: /tmp/search-project
         run: ./scripts/build.sh
-      - name: Run linters via pre-commit
-        working-directory: /tmp/search-project
-        run: docker compose -f docker/docker-compose.yml run --rm search_project_development ./scripts/lint.sh
       - name: Run app_database, search_database services
         working-directory: /tmp/search-project
         run: docker compose -f docker/docker-compose.yml up --build --detach
