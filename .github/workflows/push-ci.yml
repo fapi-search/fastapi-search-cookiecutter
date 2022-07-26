@@ -2,8 +2,7 @@ name: Push CI
 on: pull_request
 
 jobs:
-  container-job:
-    name: ci
+  build-and-test:
     strategy:
       fail-fast: false
       matrix:
@@ -11,16 +10,14 @@ jobs:
         poetry-version: ["1.1.13"]
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
-    container: python:3.10-buster
+    container: docker:20.10
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install cookiecutter, poetry
-        run: |
-          python -m pip install --upgrade pip
-          pip install cookiecutter poetry
+        run: pipx install cookiecutter poetry
       - name: Create search project
         run: |
           git config --global init.defaultBranch main
