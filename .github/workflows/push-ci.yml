@@ -27,7 +27,10 @@ jobs:
           cookiecutter --no-input --output-dir /tmp .
           cd /tmp/search-project
       - name: Build docker images
-        run: ./scripts/build.sh
+        run: |
+          pwd
+          cd /tmp/search-project
+          ./scripts/build.sh
       - name: Run app_database, search_database services
         run: docker compose -f docker/docker-compose.yml up --build
       - name: Run linters via pre-commit
