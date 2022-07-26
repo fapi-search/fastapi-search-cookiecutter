@@ -25,12 +25,18 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
           cookiecutter --no-input --output-dir /tmp .
+      # Pull the latest images to build, and avoid caching pull-only images.
+      - name: Pull the latest images
+        working-directory: /tmp/search-project
+        run: docker compose -f docker/docker-compose.yml pull
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
       - name: Build docker images
         working-directory: /tmp/search-project
         run: ./scripts/build.sh
-      - name: Run app_database, search_database services
-        working-directory: /tmp/search-project
-        run: docker compose -f docker/docker-compose.yml up --build --detach
+      #- name: Run app_database, search_database services
+      #  working-directory: /tmp/search-project
+      #  run: docker compose -f docker/docker-compose.yml up --build --detach
       - name: Run tests and coverage
         working-directory: /tmp/search-project
         run: docker compose -f docker/docker-compose.yml run --rm search_project_development ./scripts/test.sh
