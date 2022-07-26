@@ -22,6 +22,8 @@ services:
       - node.name=search_database
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
     ulimits:
       memlock:
         soft: -1
