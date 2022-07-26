@@ -42,7 +42,7 @@ jobs:
         with:
           url: 'http://localhost:9200/'
           responseCode: '200'
-          timeout: 2000
+          timeout: 20000
           interval: 500
       - name: Run tests and coverage
         working-directory: /tmp/search-project
