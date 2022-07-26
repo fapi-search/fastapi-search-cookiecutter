@@ -40,6 +40,30 @@ WORKDIR $PYSETUP_PATH
 COPY ./poetry.lock ./pyproject.toml ./
 RUN poetry install --no-dev
 
+# 'development' stage installs all dev deps and can be used to develop code.
+# For example using docker-compose to mount local volume under /app
+FROM python-base as development
+ENV FASTAPI_ENV=development
+
+# Copying poetry and venv into image
+COPY --from=builder-base $POETRY_HOME $POETRY_HOME
+COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
+
+# Copying in our entrypoint
+COPY ./docker/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+# venv already has runtime deps installed we get a quicker install
+WORKDIR $PYSETUP_PATH
+RUN poetry install
+
+WORKDIR /home/app
+COPY . .
+
+EXPOSE {{ cookiecutter.default_local_port }}
+ENTRYPOINT /docker-entrypoint.sh $0 $@
+CMD ["uvicorn", "--reload", "--host=0.0.0.0", "--port={{ cookiecutter.default_local_port }}", "app.main:app"]
+
 # 'production' stage uses the clean 'python-base' stage and copyies
 # in only our runtime deps that were installed in the 'builder-base'
 FROM python-base as production
@@ -56,7 +80,7 @@ RUN groupadd -g 1500 app && \
 
 WORKDIR /home/app
 COPY --chown=app:app ./alembic.ini .
-COPY --chown=app:app ./alembic ./alembic/
+COPY --chown=app:app ./alembic/ ./alembic
 COPY --chown=app:app ./app/ ./app
 USER app
 

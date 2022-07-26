@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+
+  app_database:
+    image: postgres:14.4-alpine
+    container_name: app-database
+    restart: always
+    environment:
+      - POSTGRES_USER=db_user
+      - POSTGRES_PASSWORD=db_pass
+      - POSTGRES_DB=app_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - app_database:/var/lib/postgresql/data
+
+  search_database:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.5
+    container_name: search-database
+    environment:
+      - node.name=search_database
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - search_database:/usr/share/elasticsearch/data
+    ports:
+      - '9200:9200'
+
+  {{ cookiecutter.project_slug|replace('-', '_') }}_development:
+    image: {{ cookiecutter.project_slug }}-development
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: development
+    container_name: {{ cookiecutter.project_slug }}-development
+    profiles:
+      - development
+    env_file: docker-compose.env
+    volumes:
+      - ../.:/home/app
+    ports:
+      - '{{ cookiecutter.default_local_port }}:{{ cookiecutter.default_local_port }}'
+    depends_on:
+      - app_database
+      - search_database
+
+  {{ cookiecutter.project_slug|replace('-', '_') }}_production:
+    image: {{ cookiecutter.project_slug }}-production
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: production
+    container_name: {{ cookiecutter.project_slug }}-production
+    profiles:
+      - production
+    env_file: docker-compose.env
+    ports:
+      - '{{ cookiecutter.default_docker_port }}:{{ cookiecutter.default_docker_port }}'
+    depends_on:
+      - app_database
+      - search_database
+
+volumes:
+  app_database:
+    driver: local
+  search_database:
+    driver: local
