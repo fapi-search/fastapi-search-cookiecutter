@@ -2,13 +2,14 @@ name: Push CI
 on: pull_request
 
 jobs:
-  ci:
+  build-and-test-on-pr:
     strategy:
       fail-fast: false
       matrix:
         python-version: ["3.10"]
         poetry-version: ["1.1.13"]
         os: [ubuntu-20.04]
+        search-backend: ["elasticsearch", "opensearch"]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -24,7 +25,7 @@ jobs:
           git config --global init.defaultBranch main
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
-          cookiecutter --no-input --output-dir /tmp .
+          cookiecutter --replay-file replays/fastapi-${{ matrix.search-backend }}-cookiecutter.json --output-dir /tmp .
       # Pull the latest images to build, and avoid caching pull-only images.
       - name: Pull the latest images
         working-directory: /tmp/search-project
