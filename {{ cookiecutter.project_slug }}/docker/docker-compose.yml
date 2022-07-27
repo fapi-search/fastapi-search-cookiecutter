@@ -16,22 +16,36 @@ services:
       - app_database:/var/lib/postgresql/data
 
   search_database:
+    {% if cookiecutter.search_backend == "elasticsearch" -%}
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.5
+    {% elif cookiecutter.search_backend == "opensearch" -%}
+    image: opensearchproject/opensearch:2.1.0{% endif  %}
     container_name: search-database
     environment:
       - node.name=search_database
       - discovery.type=single-node
+      {% if cookiecutter.search_backend == "elasticsearch" -%}
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - xpack.security.enabled=false
       - xpack.security.http.ssl.enabled=false
+      {% elif cookiecutter.search_backend == "opensearch" -%}
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "DISABLE_INSTALL_DEMO_CONFIG=true"
+      - "DISABLE_SECURITY_PLUGIN=true"{% endif %}
     ulimits:
       memlock:
         soft: -1
         hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
     volumes:
-      - search_database:/usr/share/elasticsearch/data
+      - search_database:/usr/share/{{ cookiecutter.search_backend }}/data
     ports:
       - '9200:9200'
+      {% if cookiecutter.search_backend == "opensearch" -%}
+      - '9600:9600' # required for Performance Analyzer{% endif %}
 
   {{ cookiecutter.project_slug|replace('-', '_') }}_development:
     image: {{ cookiecutter.project_slug }}-development

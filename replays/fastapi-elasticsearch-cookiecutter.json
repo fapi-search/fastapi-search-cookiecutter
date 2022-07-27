@@ -1,0 +1,21 @@
+{
+  "cookiecutter": {
+    "project_name": "Search Project",
+    "project_slug": "search-project",
+    "default_local_port": "8001",
+    "default_local_host": "localhost",
+    "default_docker_port": "8000",
+    "search_backend": "elasticsearch",
+    "default_postgres_url": "postgresql+asyncpg://db_user:db_pass@localhost:5432/app_db",
+    "default_search_url": "http://elastic:elastic@localhost:9200",
+    "use_precommit": "y",
+    "_copy_without_render": [
+      "*.html"
+    ],
+    "_extensions": [
+      "local_extensions.test_database_url"
+    ],
+    "_template": "fastapi-search-cookiecutter/",
+    "_output_dir": "/home/rod/Projects/fapi-search"
+  }
+}

@@ -64,7 +64,6 @@ profile = "black"
 
 [tool.pytest.ini_options]
 asyncio_mode = "strict"
-#filterwarnings = ["ignore::ElasticsearchWarning"]
 filterwarnings = [
     "error",
 {% if cookiecutter.search_backend == "elasticsearch" -%}

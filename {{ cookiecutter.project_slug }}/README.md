@@ -1,11 +1,10 @@
 # {{ cookiecutter.project_name }}
 ## Docker setup
-This project's docker setup is in the `./docker` directory, and includes
+The project's docker setup is in the `./docker` directory, and includes
 - A multi-stage docker build; the `development` and `production`
   stages are what you'll generally use.
-- A `docker-compose.yml` which, by default, only starts supporting
-  Postgresql and Elasticsearch services, but includes docker profiles
-  to run the app cluster in a `development` or `production` container.
+- A `docker-compose.yml` for a complete working cluster, including
+  Postgresql and {{ cookiecutter.search_backend | title }} services.
 - A `docker-compose.env` for env vars shared across the compose
   cluster.
 
