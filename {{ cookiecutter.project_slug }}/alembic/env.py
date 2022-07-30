@@ -40,7 +40,7 @@ async def create_database(database_url: DatabaseURL, reset: bool = False) -> Non
     try:
         await database.connect()
         if reset:
-            print(f"{database_url.database} dropped")
+            print(f"dropping {database_url.database}")
             await database.execute(f"DROP DATABASE IF EXISTS {database_url.database}")
         await database.execute(
             f"CREATE DATABASE {database_url.database}"
